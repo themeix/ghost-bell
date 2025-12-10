@@ -1,0 +1,7 @@
+{{#if @custom.homepage_tags}}
+  {{#get 'tags' filter='slug:[{{@custom.homepage_tags}}]'}}
+    {{#foreach tags}}
+      {{> tag-section}}
+    {{/foreach}}
+  {{/get}}
+{{/if}}

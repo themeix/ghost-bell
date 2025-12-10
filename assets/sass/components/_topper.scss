@@ -1,0 +1,100 @@
+// ------------------------------------
+// Components > Topper
+// ------------------------------------
+
+.c-topper {
+  margin: 0 auto;
+  margin-top: var(--space-40);
+  padding: 0 var(--grid-margin);
+  max-width: var(--content-width);
+  margin-bottom: var(--space-32);
+
+  &__content {
+    padding-bottom: var(--space-32);
+    // GhostFlow MH
+    border-bottom: var(--border-width) var(--border-style) var(--ghost-accent-color);
+
+    > * + * {
+      margin-top: var(--space-8);
+    }
+  }
+
+  &__tag {  }
+
+  &__headline {
+    @include font($family: serif, $scale: 6, $weight: bold);
+
+    @include mq($from: desktop) {
+      @include font($scale: 8, $line-height: 9, $weight: semibold);
+    }
+  }
+
+  &__standfirst {
+    @include font($family: serif, $scale: 4, $line-height: 5);
+
+    @include mq($from: desktop) {
+      @include font($scale: 5, $line-height: 6);
+    }
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--space-16);
+    align-items: baseline;
+
+    @include mq($from: desktop) {
+      flex-direction: row;
+    }
+
+    > div {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      flex-wrap: wrap;
+    }
+
+    .post & {
+      .c-byline a,
+      .c-byline span,
+      .c-timestamp,
+      .c-reading-time,
+      .u-separator {
+        @include font($scale: 1, $weight: medium);
+      }
+    }
+  }
+
+  &__byline {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__timestamp {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__reading-time {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__meta-line {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    margin-top: var(--space-8);
+
+    @include mq($from: desktop) {
+      margin-top: 0;
+      margin-left: var(--space-16);
+    }
+
+    [data-cove-count-comments] {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+  }
+}

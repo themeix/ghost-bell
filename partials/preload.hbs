@@ -1,0 +1,21 @@
+{{!-- Preload the post featured image --}}
+
+{{!-- If I'm on a single post/page  --}}
+{{#is "post, page"}}
+  {{#post}}
+    {{#if feature_image}}
+      <link rel='preload' fetchpriority='high' as='image' href="{{ img_url feature_image size='feature-image-large' format='webp' }}" type='image/webp'>
+    {{/if}}
+  {{/post}}
+{{/is}}
+
+{{!-- If at home, get the feature image of the latest featured post; this is the big centered one --}}
+{{#is "home"}}
+  {{#get 'posts' filter='featured:true' limit='1' }}
+    {{#foreach posts}}
+      {{#if feature_image}}
+        <link rel='preload' fetchpriority='high' as='image' href="{{ img_url feature_image size='feature-image-large' format='webp' }}" type='image/webp'>
+      {{/if}}
+    {{/foreach}}
+  {{/get}}
+{{/is}}

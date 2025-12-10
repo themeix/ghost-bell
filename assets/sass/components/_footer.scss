@@ -1,0 +1,80 @@
+// ------------------------------------
+// Components > Footer
+// ------------------------------------
+
+.c-footer {
+  position: sticky;
+  top: 100vh;
+  padding: var(--space-64) 0;
+  margin-top: var(--space-64);
+  background-color: var(--color-background-secondary);
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > * + * {
+      margin-top: var(--space-32);
+    }
+  }
+}
+
+.c-footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .c-nav__item {
+    @include font($scale: 1, $line-height: 4, $weight: normal);
+
+    text-transform: initial;
+    color: var(--color-white);
+  }
+
+  .c-nav__item:not(:first-child)::before {
+    display: none;
+  }
+
+  li:not(:last-child) {
+    margin: 0
+  }
+
+  a {
+    @include link_underline();
+  }
+}
+
+.c-footer-copy {
+  @include font($scale: 1, $line-height: 2);
+
+  text-align: center;
+  color: var(--color-white);
+
+  a {
+    @include link_underline();
+  }
+}
+
+// New styles for white text in footer
+.c-footer-text {
+  color: var(--color-white);
+}
+
+.c-footer-link {
+  color: var(--color-white);
+  text-decoration: underline;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+// Override existing styles to ensure white text
+.c-footer {
+  .c-footer-nav .c-nav__item,
+  .c-footer-copy {
+    color: var(--color-white);
+  }
+}

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang='{{ @site.locale }}' class='{{#if @custom.enable_dark_mode}} is-darkModeAdminSetting-enabled {{/if}}'>
+
+  {{> structure/head }}
+
+  <body class='{{ body_class }}'>
+    {{!#unless @member}}
+    {{#unless true}}
+    {{> millmedia-cover}}
+    {{/unless}}
+
+    {{> skip }}
+
+    {{> structure/header }}
+
+    <main id='main'>
+      {{{ body }}}
+    </main>
+
+    {{> structure/footer }}
+    
+    {{> share-popup}}
+
+    <script src='{{ asset 'js/app.min.js' }}'></script>
+    {{ ghost_foot }}
+    
+    <script src="https://cdn.cove.chat/comments.js" data-cove-id="22b361ab18186c0675428f0c7617f852" async></script>
+    <script src="https://cdn.cove.chat/tools.js" data-cove-id="22b361ab18186c0675428f0c7617f852" async></script>
+    
+
+
+  </body>
+</html>

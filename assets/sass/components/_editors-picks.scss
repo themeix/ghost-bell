@@ -1,0 +1,118 @@
+// ------------------------------------
+// Components > Editors Picks
+// ------------------------------------
+
+.c-editors-pick  {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: var(--space-80) 2fr;
+  grid-template-areas: 'number media'
+                       'content content';
+
+  &__media {
+    grid-area: media;
+    position: relative;
+    aspect-ratio: var(--ratio-3x2);
+    background-color: var(--color-background-primary);
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, .1);
+      opacity: 0;
+      transition: ease opacity var(--motion-duration-fast);
+    }
+
+    @include hover() {
+      &:after {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__content {
+    grid-area: content;
+
+    > * + * {
+      margin-top: var(--space-8);
+    }
+  }
+
+  &__content {
+    margin-top: var(--space-24);
+  }
+
+  &__headline {
+    @include font($family: serif, $scale: 5, $weight: semibold);
+
+    @include link_underline_on_hover();
+  }
+
+  &__standfirst {
+    @include font($family: serif, $scale: 3, $line-height: 4);
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  &__text {
+    color: var(--color-white);
+    letter-spacing: -0.03em;
+
+    a {
+      color: var(--color-white);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.c-editors-picks-wrapper {
+  counter-reset: list-items;
+
+  .c-editors-pick::before {
+    @include font($scale: 10, $weight: regular);
+  //Ghostflow MH
+    font-family: kibitz-medium-pro, Arial, Helvetica, sans-serif;
+
+    grid-area: number;
+    counter-increment: list-items;
+    content: counter(list-items);
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-color: var(--color-white);
+
+    margin-top: auto;
+    margin-bottom: calc(var(--space-8) * -1);
+  }
+
+  // Make time white within editors picks wrapper
+  time {
+    color: var(--color-white);
+  }
+}
+
+// New style for the editors-pick section heading
+.c-section--editors-pick {
+  .c-section-heading__title {
+    color: var(--color-white);
+  }
+}

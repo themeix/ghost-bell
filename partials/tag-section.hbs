@@ -1,0 +1,24 @@
+<div class='c-section c-section--{{slug}}'>
+  <div class='o-grid'>
+    <div class='c-section-heading c-section-heading--tag'>
+      <h2 class='c-section-heading__title'><a href='{{ url }}'>{{ name }}</a></h2>
+
+      <a href='{{ url }}' class='c-section-heading__title
+        {{#get 'posts' filter='tags:{{slug}}' as |posts|}}
+          {{#match posts.length ">" 4}}u-block{{else}}u-hidden{{/match}}
+        {{/get}}'>
+        {{t 'All'}}
+      </a>
+    </div>
+  </div>
+
+  <div class='o-grid o-grid--4-columns'>
+    {{#get 'posts' filter='tags:{{slug}}' include='tags,authors' limit=4 as |posts|}}
+      {{#if posts}}
+        {{#foreach posts}}
+          {{> card showExcerpt=true }}
+        {{/foreach}}
+      {{/if}}
+    {{/get}}
+  </div>
+</div>

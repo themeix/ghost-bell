@@ -1,0 +1,9 @@
+// ------------------------------------
+// Components > Timestamp
+// ------------------------------------
+
+.c-timestamp {
+  @include font($scale: 0, $weight: medium);
+
+  color: var(--color-text-secondary);
+}

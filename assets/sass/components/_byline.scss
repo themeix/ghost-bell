@@ -1,0 +1,21 @@
+// ------------------------------------
+// Components > Byline
+// ------------------------------------
+
+.c-byline {
+  display: flex;
+  flex-wrap: wrap;
+  color: var(--color-text-secondary);
+
+  a {
+    @include font($scale: 0, $weight: medium, $uppercase: true, $letter-spacing: brevier);
+
+    @include hover() {
+      text-decoration: underline;
+    }
+  }
+
+  span {
+    @include font($scale: 0, $weight: medium);
+  }
+}

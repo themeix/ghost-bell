@@ -1,0 +1,51 @@
+// ------------------------------------
+// Components > Logo
+// ------------------------------------
+
+.c-logo {
+  @include mq($from: tablet) {
+    margin: auto;
+  }
+
+  &__link {
+    @include font($scale: 6, $weight: medium);
+
+    @include mq($from: tablet) {
+      @include font($scale: 8);
+    }
+  }
+
+  &__img {
+    max-height: var(--space-32);
+
+    @include mq($from: tablet) {
+      max-height: var(--space-48);
+    }
+  }
+}
+
+.c-logo__dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-user-color-scheme]).is-darkModeAdminSetting-enabled {
+    .c-logo__dark {
+      display: block;
+    }
+
+    .c-logo__light {
+      display: none;
+    }
+  }
+}
+
+[data-user-color-scheme='dark'] {
+  .c-logo__dark {
+    display: block;
+  }
+
+  .c-logo__light {
+    display: none;
+  }
+}

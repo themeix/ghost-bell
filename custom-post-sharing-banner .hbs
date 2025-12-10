@@ -1,0 +1,45 @@
+{{!< default}}
+
+{{#contentFor 'title'}}{{ meta_title }}{{/contentFor}}
+
+{{#post}}
+  {{> topper }}
+
+  <article class='c-post {{ post_class }}'>
+    {{#if access}}
+      {{#if @custom.enable_table_of_contents}}
+        {{> table-of-contents }}
+      {{/if}}
+
+      {{#has tag='#table-of-content'}}
+        {{> table-of-contents }}
+      {{/has}}
+    {{/if}}
+
+    <div class='c-content {{#unless access}} c-content--has-shadow {{/unless}}'>
+      {{ content }}
+    </div>
+
+    {{#unless access}}
+      {{> upgrade }}
+    {{/unless}}
+
+    <a href="#" data-webshare class="c-webshare-banner plausible-event-name=sharingbanner">
+      <img src="{{asset "fonts/bell_300w.png"}}" alt="Share logo" class="c-webshare-banner__logo">
+      <p class="c-webshare-banner__cta">{{@custom.share_cta}}</p>
+    </a>
+    
+    <br>    
+    <hr id="comment-section" style="border-color: var(--ghost-accent-color);">
+
+    {{!-- GhostFlow MH - Cove Comments --}}
+    {{!-- Compatibility with Ghost Newsletter --}}
+    <div id="ghost-comments"></div> 
+    {{> comments}}
+
+  </article>
+{{/post}}
+
+{{!> related }}
+
+{{> latest }}

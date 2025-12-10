@@ -1,0 +1,30 @@
+{{!< default}}
+
+{{#contentFor 'title'}}{{ meta_title }}{{/contentFor}}
+
+{{#post}}
+  {{#match @page.show_title_and_feature_image}}
+    {{> topper }}
+  {{/match}}
+
+  <article class='c-post {{ post_class }}'>
+    <div class='c-content {{#unless access}} c-content--has-shadow {{/unless}}'>
+      {{ content }}
+    </div>
+
+
+
+  {{#if @member}}
+  {{@member.email}}
+  {{@member.firstname}}
+
+  <script type="text/javascript" src="https://form.jotform.com/jsform/243382464431051"></script>
+  {{else}}
+  NOMEMBER
+  <script type="text/javascript"  src="https://form.jotform.com/jsform/243382464431051?q12_message=textboxinfo"></script>
+
+
+  {{/if}}
+
+  </article>
+{{/post}}

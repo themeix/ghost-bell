@@ -1,0 +1,95 @@
+// ------------------------------------
+// Components > Content
+// ------------------------------------
+
+.c-post {
+  margin: 0 auto;
+  padding: 0 var(--grid-margin);
+  max-width: var(--content-width);
+
+  > * + * {
+    margin-top: var(--content-flow);
+  }
+}
+
+.c-content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  &:empty {
+    display: none;
+  }
+
+  > * {
+    min-width: 100%;
+  }
+
+  > * + * {
+    margin-top: var(--content-flow);
+  }
+
+  // Remove space between full-width cards
+  > .kg-width-full + .kg-width-full:not(.kg-width-full.kg-card-hascaption + .kg-width-full) {
+    margin-top: 0;
+  }
+
+  :where(p, ol, ul, blockquote) {
+    @include font($family: serif, $scale: body-copy);
+  }
+
+  :where(h1, h2, h3) + * {
+    margin-top: calc(var(--content-flow) / 2);
+  }
+
+  a:not([class]) {
+    @include link_underline();
+
+    color: var(--color-accent);
+  }
+
+  :where(hr) {
+    margin: var(--content-flow) 0;
+
+    + * {
+      margin-top: 0;
+    }
+  }
+
+  :is(dd, ol, ul) {
+    padding-left: var(--space-16);
+    padding-right: var(--space-16);
+  }
+
+  // Hide Ghost built-in upgrade call to action box
+  .gh-post-upgrade-cta {
+    display: none;
+    visibility: hidden
+  }
+
+
+  // Fade out effect for last paragraph before paywall (only when shadow class is present)
+  &--has-shadow {
+    position: relative;
+
+    // Target the last paragraph before the paywall
+    > p:last-of-type:not(:has(+ p)) {
+      position: relative;
+      mask-image: linear-gradient(to bottom, black 0%, black 30%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 0%, black 30%, transparent 100%);
+      z-index: 1;
+    }
+
+    // Keep CTA content above the fade
+    > .kg-cta-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    // Ensure paywall banner stays on top
+    > .u-color-background-secondary {
+      position: relative;
+      z-index: 3;
+    }
+  }
+}

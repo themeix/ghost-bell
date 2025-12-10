@@ -1,0 +1,44 @@
+// ------------------------------------
+// Components > Visibility Label
+// ------------------------------------
+
+.c-visibility-label {
+  @include font($scale: 0, $uppercase: true); // Set font size scale to 0
+
+  display: inline-flex;
+  align-items: center;
+  border-radius: 3px; // Set border radius to 3px
+  padding: 2px var(--space-2) 0px var(--space-2);
+  color: var(--color-text-secondary);
+  background-color: #ffffff;
+  border: 1px solid lightgray;
+
+  &--editors-pick {
+    background-color: #ffffff;
+  }
+
+  span {
+    display: none;
+  }
+
+  &--paid .paid,
+  &--tiers .paid,
+  &--members .members,
+  &--public .public {
+    display: block;
+  }
+
+  &--is-member.c-visibility-label--public,
+  &--is-member.c-visibility-label--members {
+    display: none;
+  }
+
+  &--is-paid-member {
+    display: none;
+  }
+
+  // New rule to hide visibility label when inside .right div
+  .right & {
+    display: none;
+  }
+}

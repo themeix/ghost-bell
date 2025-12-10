@@ -1,0 +1,32 @@
+// ------------------------------------
+// Components > Archive Pagination
+// ------------------------------------
+
+.c-archive-pagination {
+  @include font($family: sansSerif, $scale: 1, $weight: normal);
+  margin: var(--space-16) 0;
+
+  &--center {
+    text-align: center;
+  }
+
+  &__link {
+    @include link_underline_on_hover();
+    color: var(--color-text-primary);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--color-text-primary);
+    }
+  }
+
+  &__separator {
+    color: var(--color-text-secondary);
+    margin: 0 var(--space-8);
+  }
+
+  &__current {
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+  }
+}

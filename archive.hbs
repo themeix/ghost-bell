@@ -1,0 +1,151 @@
+{{!< default}}
+
+{{!-- DEBUG: Archive template loaded --}}
+{{log "🔍 DEBUG: Archive template loaded"}}
+{{log "🔍 DEBUG: Template context - meta_title:" meta_title}}
+{{log "🔍 DEBUG: Template context - @site.title:" @site.title}}
+{{log "🔍 DEBUG: Template context - @site.url:" @site.url}}
+{{log "🔍 DEBUG: Posts available directly:" posts.length}}
+{{log "🔍 DEBUG: Pagination available:" pagination}}
+
+
+{{#contentFor 'title'}}{{#if meta_title}}{{meta_title}}{{else}}Archive{{/if}}{{/contentFor}}
+
+<div class='c-post'>
+  <header class='c-page-header' style="margin-bottom: var(--space-16);">
+    <h1 class='c-topper__headline u-font-headline u-font-family-sansSerif'>{{#if meta_title}}{{meta_title}}{{else}}All our stories{{/if}}</h1>
+    
+    {{! Add pagination controls below headline }}
+    {{#if pagination}}
+      {{log "🔍 DEBUG: Rendering top pagination controls"}}
+      <nav class="c-archive-pagination c-archive-pagination--top" role="navigation" style="font-size: 1.125rem; margin-top: var(--space-16);">
+        {{#if pagination.prev}}
+          <a class="c-archive-pagination__link" href="{{page_url pagination.prev}}">Newer Posts</a>
+          <span class="c-archive-pagination__separator"> | </span>
+        {{/if}}
+        <span class="c-archive-pagination__current" data-current-page="{{pagination.page}}" data-total-posts="{{@site.posts_count}}">Page {{pagination.page}} of {{pagination.pages}}</span>
+        {{#if pagination.next}}
+          <span class="c-archive-pagination__separator"> | </span>
+          <a class="c-archive-pagination__link" href="{{page_url pagination.next}}">Older Posts</a>
+        {{/if}}
+      </nav>
+    {{else}}
+      {{log "🔍 DEBUG: No pagination available for top controls"}}
+    {{/if}}
+  </header>
+  
+  {{#get "posts" limit="40" page=pagination.page include="authors" order="published_at desc" as |archive_posts|}}
+    {{log "🔍 DEBUG: Get posts query executed"}}
+    {{log "🔍 DEBUG: Archive posts found:" archive_posts.length}}
+    {{log "🔍 DEBUG: Archive posts meta:" archive_posts.meta}}
+    {{log "🔍 DEBUG: Archive posts meta.pagination:" archive_posts.meta.pagination}}
+    
+    {{#if archive_posts}}
+      {{log "🔍 DEBUG: Starting posts loop, iterating through" archive_posts.length "posts"}}
+      {{#foreach archive_posts}}
+        {{!-- DEBUG: Individual post information --}}
+        {{log "🔍 DEBUG: Processing post" @index "- ID:" id "Title:" title}}
+        {{log "🔍 DEBUG: Post" @index "- Date:" (date format="YYYY-MM-DD") "URL:" url}}
+        {{log "🔍 DEBUG: Post" @index "- Is first:" @first "Is last:" @last}}
+        {{#if authors}}
+          {{log "🔍 DEBUG: Post" @index "- Authors:" authors.length}}
+        {{/if}}
+        
+        {{! Show month header - will be handled by JavaScript after render }}
+        <div class="post-date-marker" data-post-date="{{ date format="YYYY-MM" }}" data-post-index="{{ @index }}">
+          <div class='c-section-heading' style="display: none;">
+            <h2 class='c-section-heading__title'>{{ date format="MMMM YYYY" }}</h2>
+          </div>
+        </div>
+        
+        <div class='c-card-archive c-card-archive--date-{{date format="M"}}'>
+
+          <div class='c-card-archive__content'>
+            <h3 class='c-card-archive__title'>                
+              <a href='{{ url }}' class='c-card-archive__url'>{{ title }}</a>                
+            </h3>
+            {{#if authors}}
+              {{> byline component="card-archive"}}
+            {{/if}}
+          </div>            
+        </div>
+      {{/foreach}}
+      {{log "🔍 DEBUG: Posts loop completed"}}
+      
+      {{! Pass correct pagination data to JavaScript }}
+      <script>
+        window.archivePaginationData = {
+          currentPage: {{archive_posts.meta.pagination.page}},
+          totalPages: {{archive_posts.meta.pagination.pages}},
+          totalPosts: {{archive_posts.meta.pagination.total}}
+        };
+      </script>
+    {{else}}
+      {{log "🔍 DEBUG: No posts found to display"}}
+      <p>No posts found.</p>
+    {{/if}}
+  {{/get}}
+  
+  {{! Add pagination controls }}
+  {{#if pagination}}
+    {{log "🔍 DEBUG: Rendering pagination controls"}}
+    <div class='c-section'>
+      <div class='o-grid'>
+        <nav class="c-archive-pagination c-archive-pagination--center" role="navigation" style="font-size: 1.125rem;">
+          {{#if pagination.prev}}
+            <a class="c-archive-pagination__link" href="{{page_url pagination.prev}}">Newer Posts</a>
+            <span class="c-archive-pagination__separator"> | </span>
+          {{/if}}
+          <span class="c-archive-pagination__current" data-current-page="{{pagination.page}}" data-total-posts="{{@site.posts_count}}">Page {{pagination.page}} of {{pagination.pages}}</span>
+          {{#if pagination.next}}
+            <span class="c-archive-pagination__separator"> | </span>
+            <a class="c-archive-pagination__link" href="{{page_url pagination.next}}">Older Posts</a>
+          {{/if}}
+        </nav>
+      </div>
+    </div>
+  {{else}}
+    {{log "🔍 DEBUG: No pagination available"}}
+  {{/if}}
+</div>
+
+<script>
+// Handle month headers for archive posts and fix pagination counter
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle month headers
+  const dateMarkers = document.querySelectorAll('.post-date-marker');
+  let lastMonth = '';
+  
+  dateMarkers.forEach(function(marker) {
+    const postDate = marker.getAttribute('data-post-date');
+    const monthHeader = marker.querySelector('.c-section-heading');
+    
+    if (postDate !== lastMonth) {
+      monthHeader.style.display = 'block';
+      lastMonth = postDate;
+    } else {
+      // Remove the marker if we don't need the header
+      marker.remove();
+    }
+  });
+  
+  // Fix pagination counter using correct data from custom query
+  const paginationElements = document.querySelectorAll('.c-archive-pagination__current');
+  
+  if (window.archivePaginationData && paginationElements.length > 0) {
+    const { currentPage, totalPages, totalPosts } = window.archivePaginationData;
+    
+    paginationElements.forEach(function(element) {
+      // Update the text content with correct pagination data
+      element.textContent = 'Page ' + currentPage + ' of ' + totalPages;
+      
+      console.log('🔍 DEBUG: Updated pagination - Current page:', currentPage, 'Total pages:', totalPages, 'Total posts:', totalPosts);
+    });
+  } else {
+    console.log('🔍 DEBUG: No archive pagination data available');
+  }
+});
+</script>
+
+{{!-- DEBUG: Template rendering completed --}}
+{{log "🔍 DEBUG: Archive template rendering completed successfully"}}

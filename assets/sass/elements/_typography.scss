@@ -1,0 +1,39 @@
+// ------------------------------------
+// Elements > Typography
+// ------------------------------------
+
+:where(h1, h2, h3, strong) {
+  @include font($weight: semibold);
+}
+
+:where(h1) {
+  @include font($scale: 6);
+
+  @include mq($from: desktop) {
+    @include font($scale: 7);
+  }
+
+  + h2, + h3 {
+    margin-top: var(--space-16);
+  }
+}
+
+:where(h2) {
+  @include font($scale: 5);
+
+  @include mq($from: desktop) {
+    @include font($scale: 6);
+  }
+
+  + h3 {
+    margin-top: var(--space-16);
+  }
+}
+
+:where(h3) {
+  @include font($scale: 4);
+
+  @include mq($from: desktop) {
+    @include font($scale: 5);
+  }
+}
