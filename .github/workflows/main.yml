@@ -2,8 +2,8 @@ name: Deploy Theme
 on:
   push:
     branches:
-      - master
       - main
+      - master
 
 jobs:
   deploy:
@@ -11,14 +11,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Zip theme
-        run: zip -r theme.zip .
+
+      - name: Zip Clean Theme
+        run: |
+          zip -r theme.zip . -x "*.git*" \
+            "node_modules/*" \
+            "bower_components/*" \
+            ".github/*" \
+            "*.DS_Store" \
+            "*.md" \
+            "gulpfile.js" \
+            "package-lock.json"
 
       - name: Deploy Ghost Theme
         uses: TryGhost/action-deploy-theme@v1
         with:
-          theme-name: tripoli
+          theme-name: millmediatripoli
           api-url: ${{ secrets.GHOST_ADMIN_API_URL }}
           api-key: ${{ secrets.GHOST_ADMIN_API_KEY }}
           file: theme.zip
