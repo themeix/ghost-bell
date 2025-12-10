@@ -5,7 +5,7 @@
   "docs": "https://aspirethemes.com/docs/tripoli",
   "version": "1.0.9",
   "engines": {
-    "ghost": ">=5.0.0"
+    "ghost": ">=6.0.0"
   },
   "keywords": [
     "ghost-theme"
