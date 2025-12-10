@@ -1,0 +1,14 @@
+routes:
+
+collections:    
+  /:
+    permalink: /{slug}/
+    template: index
+
+  /the-archive/:
+    permalink: /the-archive/{page}/
+    template: archive
+
+taxonomies:
+  tag: /tag/{slug}/
+  author: /author/{slug}/
