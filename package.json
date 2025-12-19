@@ -3,7 +3,7 @@
   "description": "MillMedia custom Tripoli",
   "demo": "https://tripoli.aspirethemes.com/",
   "docs": "https://aspirethemes.com/docs/tripoli",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "engines": {
     "ghost": ">=6.0.0"
   },
